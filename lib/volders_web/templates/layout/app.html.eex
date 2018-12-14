@@ -19,7 +19,7 @@
             <li><a href="#">Register</a></li>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <span class="volders-logo"></span>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

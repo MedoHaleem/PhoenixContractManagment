@@ -13,7 +13,7 @@ config :logger, level: :warn
 config :volders, Volders.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "volders_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

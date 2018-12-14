@@ -17,6 +17,8 @@ defmodule VoldersWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/register", UserController, :new
+    resources("/user", UserController)
   end
 
   # Other scopes may use custom stacks.
