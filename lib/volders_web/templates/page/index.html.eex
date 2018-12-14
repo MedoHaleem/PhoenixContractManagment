@@ -1,0 +1,7 @@
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}!", name: "Volders Contracts Managment App" %></h2>
+  <p class="lead">Managing contracts is not an easy task, believe me, we know how complex it is.</br> They have specific terms, cancellation and prolongation dates and it’s quite easy to loose track of all the details.</br> 
+ Volders Contracts Managment is an application to help people to manage their contracts in a simple way.
+</p>
+</div>
+
