@@ -1,0 +1,13 @@
+<header class="header">
+    <nav role="navigation">
+        <ul class="nav nav-pills pull-right">
+             <%= if Plug.Conn.get_session(@conn, :user) do %>
+            <li><a href="/logout">Logout</a></li>
+            <% else %>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+            <% end %>
+        </ul>
+    </nav>
+    <span class="volders-logo"></span>
+</header>

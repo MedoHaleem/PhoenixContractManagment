@@ -56,5 +56,15 @@ defmodule Volders.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
 
+    test "get_user_by_email/1 returns the user with the matching email" do
+      user = user_fixture()
+      assert Accounts.get_user_by_email!(user.email)
+    end
+
+    test "get_user_by_email/1 returns nil with no matching email" do
+      assert is_nil(Accounts.get_user_by_email!("fail"))
+    end
+
   end
 end
+                 

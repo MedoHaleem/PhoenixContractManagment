@@ -19,6 +19,10 @@ defmodule VoldersWeb.Router do
     get "/", PageController, :index
     get "/register", UserController, :new
     resources("/user", UserController)
+
+    resources "/sessions", SessionController, only: [:create]
+    get "/login", SessionController, :new
+    get "/logout", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

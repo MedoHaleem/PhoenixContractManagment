@@ -19,6 +19,8 @@
                         'Elixir.VoldersWeb.PageView',
                         'Elixir.VoldersWeb.Router',
                         'Elixir.VoldersWeb.Router.Helpers',
+                        'Elixir.VoldersWeb.SessionController',
+                        'Elixir.VoldersWeb.SessionView',
                         'Elixir.VoldersWeb.UserController',
                         'Elixir.VoldersWeb.UserSocket',
                         'Elixir.VoldersWeb.UserView']},
