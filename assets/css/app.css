@@ -7,3 +7,7 @@
   background-image: url("/images/logo.svg");
   background-size: 660px 71px;
 }
+
+.help-block {
+  color: red !important;
+}

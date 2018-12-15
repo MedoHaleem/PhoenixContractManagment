@@ -20,11 +20,10 @@ defmodule Volders.Accounts.User do
     |> cast(attrs, [:full_name, :email, :password, :password_confirmation])
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 8, message: "The password is too short")
-    |> validate_confirmation(:password, message: "does not match
-    password!")
+    |> validate_confirmation(:password, message: "The password confirmation doesn't match!")
     |> encrypt_password()
     |> validate_required([:full_name, :email, :password, :password_confirmation])
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, message: "This email is already taken")
   end
 
   def encrypt_password(changeset) do

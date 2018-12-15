@@ -13,9 +13,14 @@ defmodule VoldersWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
+        |> put_session(:user, %{
+          id: user.id,
+          full_name: user.full_name,
+          email: user.email
+        })
         |> redirect(to: page_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

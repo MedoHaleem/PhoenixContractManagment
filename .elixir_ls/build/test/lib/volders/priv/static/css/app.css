@@ -7,6 +7,10 @@
   background-image: url("/images/logo.svg");
   background-size: 660px 71px;
 }
+
+.help-block {
+  color: red !important;
+}
 /* Includes Bootstrap as well as some default style for the starter
  * application. This can be safely deleted to start fresh.
  */
