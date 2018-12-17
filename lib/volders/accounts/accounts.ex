@@ -122,6 +122,15 @@ defmodule Volders.Accounts do
     Repo.all(Contract)
   end
 
+
+  def list_user_contracts(user_id) do
+    Repo.all(
+      from c in Contract,
+      where: c.user_id == ^user_id,
+      order_by: [desc: :inserted_at]
+    )
+  end
+
   @doc """
   Gets a single contract.
 

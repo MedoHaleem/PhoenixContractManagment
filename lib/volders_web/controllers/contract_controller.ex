@@ -1,13 +1,14 @@
 defmodule VoldersWeb.ContractController do
   use VoldersWeb, :controller
   import Plug.Conn
-  plug :authenticate_user when action in [:new, :create, :show, :edit, :update, :delete]
+  plug :authorize_user when action in [:new, :create, :show, :edit, :update, :delete]
 
   alias Volders.Accounts
   alias Volders.Accounts.Contract
 
   def index(conn, _params) do
-    contracts = Accounts.list_contracts()
+    user = get_session(conn, :user)
+    contracts = Accounts.list_user_contracts(user.id)
     render(conn, "index.html", contracts: contracts)
   end
 
@@ -17,11 +18,13 @@ defmodule VoldersWeb.ContractController do
   end
 
   def create(conn, %{"contract" => contract_params}) do
-    case Accounts.create_contract(contract_params) do
-      {:ok, contract} ->
+
+    with user <- get_session(conn, :user),
+    contract_params <- Map.put(contract_params, "user_id", user.id), {:ok, contract} <- Accounts.create_contract(contract_params) do
         conn
         |> put_flash(:info, "Contract created successfully.")
         |> redirect(to: contract_path(conn, :show, contract))
+    else
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -60,7 +63,7 @@ defmodule VoldersWeb.ContractController do
     |> redirect(to: contract_path(conn, :index))
   end
 
-  defp authenticate_user(conn, _params) do
+  defp authorize_user(conn, _params) do
     if Plug.Conn.get_session(conn, :user) do
       conn
     else
