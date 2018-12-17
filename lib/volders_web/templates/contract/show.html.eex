@@ -1,0 +1,28 @@
+<h2>Show Contract</h2>
+
+<ul>
+
+  <li>
+    <strong>Vendor:</strong>
+    <%= @contract.vendor %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @contract.category %>
+  </li>
+
+  <li>
+    <strong>Costs:</strong>
+    <%= @contract.costs %>
+  </li>
+
+  <li>
+    <strong>Ends on:</strong>
+    <%= @contract.ends_on %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: contract_path(@conn, :edit, @contract) %></span>
+<span><%= link "Back", to: contract_path(@conn, :index) %></span>

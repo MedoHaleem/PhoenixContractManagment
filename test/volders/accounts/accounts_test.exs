@@ -66,5 +66,70 @@ defmodule Volders.AccountsTest do
     end
 
   end
+
+  describe "contracts" do
+    alias Volders.Accounts.Contract
+
+    @valid_attrs %{category: "some category", costs: 120.5, ends_on: ~D[2010-04-17], vendor: "some vendor"}
+    @update_attrs %{category: "some updated category", costs: 456.7, ends_on: ~D[2011-05-18], vendor: "some updated vendor"}
+    @invalid_attrs %{category: nil, costs: nil, ends_on: nil, vendor: nil}
+
+    def contract_fixture(attrs \\ %{}) do
+      {:ok, contract} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_contract()
+
+      contract
+    end
+
+    test "list_contracts/0 returns all contracts" do
+      contract = contract_fixture()
+      assert Accounts.list_contracts() == [contract]
+    end
+
+    test "get_contract!/1 returns the contract with given id" do
+      contract = contract_fixture()
+      assert Accounts.get_contract!(contract.id) == contract
+    end
+
+    test "create_contract/1 with valid data creates a contract" do
+      assert {:ok, %Contract{} = contract} = Accounts.create_contract(@valid_attrs)
+      assert contract.category == "some category"
+      assert contract.costs == 120.5
+      assert contract.ends_on == ~D[2010-04-17]
+      assert contract.vendor == "some vendor"
+    end
+
+    test "create_contract/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(@invalid_attrs)
+    end
+
+    test "update_contract/2 with valid data updates the contract" do
+      contract = contract_fixture()
+      assert {:ok, contract} = Accounts.update_contract(contract, @update_attrs)
+      assert %Contract{} = contract
+      assert contract.category == "some updated category"
+      assert contract.costs == 456.7
+      assert contract.ends_on == ~D[2011-05-18]
+      assert contract.vendor == "some updated vendor"
+    end
+
+    test "update_contract/2 with invalid data returns error changeset" do
+      contract = contract_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_contract(contract, @invalid_attrs)
+      assert contract == Accounts.get_contract!(contract.id)
+    end
+
+    test "delete_contract/1 deletes the contract" do
+      contract = contract_fixture()
+      assert {:ok, %Contract{}} = Accounts.delete_contract(contract)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_contract!(contract.id) end
+    end
+
+    test "change_contract/1 returns a contract changeset" do
+      contract = contract_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_contract(contract)
+    end
+  end
 end
-                 

@@ -21,7 +21,7 @@ defmodule VoldersWeb.UserController do
           full_name: user.full_name,
           email: user.email
         })
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: contract_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

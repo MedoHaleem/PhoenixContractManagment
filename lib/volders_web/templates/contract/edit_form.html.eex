@@ -1,0 +1,81 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :vendor, class: "control-label" %>
+    <select id="contract_vendor"  name="contract[vendor]" class="form-control" onchange="vendorChanged(this.value)">
+          <option value="">Select Vendor</option>
+          <option  value="Vodafone">Vodafone</option>
+          <option  value="Vattenfall">Vattenfall</option>
+          <option value="O2">O2</option>
+    </select>
+    <%= error_tag f, :vendor %>
+    <%= tag(:input, type: "hidden", id: "hidden_vendor", value: @contract.vendor) %>
+  </div>
+
+  <div id="select_category" class="form-group toggle-content is-visible">
+    <%= label f, :category, class: "control-label" %>
+  <select id="contract_category" name="contract[category]" class="form-control toggle-content" ></select>
+    <%= error_tag f, :category %>
+    <%= tag(:input, type: "hidden", id: "hidden_category", value: @contract.category) %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :costs, class: "control-label" %>
+    <%= number_input f, :costs, step: "any", class: "form-control" %>
+    <%= error_tag f, :costs %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :ends_on, class: "control-label" %>
+    <%= date_select f, :ends_on, class: "form-control" %>
+    <%= error_tag f, :ends_on %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<script>
+function vendorChanged(vendor) {
+    console.log(vendor);
+    let elm = document.getElementById("select_category")
+    if(vendor !== "") {
+      elm.classList.add("is-visible");
+      populate_category()
+    } else {
+       elm.classList.remove("is-visible");
+    }
+}
+
+function populate_category() {
+  let  vendor = document.getElementById("contract_category")
+  vendor.innerText = null
+  const categories = [
+  "Internet",
+  "Mobile Phone",
+  "Landline",
+];
+
+  const options = categories.map(category => {
+    const value = category.toLowerCase();
+    vendor.add(new Option(value, value));
+});
+
+  }
+
+function loadVendor() {
+    let selector = document.getElementById("hidden_vendor")
+    document.getElementById("contract_vendor").value = selector.value
+    vendorChanged(selector.value)
+    selector = document.getElementById("hidden_category")
+    document.getElementById("contract_category").value = selector.value
+  }
+  window.onload = loadVendor
+
+</script>

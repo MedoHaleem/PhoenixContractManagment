@@ -11,6 +11,14 @@
 .help-block {
   color: red !important;
 }
+
+.form-group.toggle-content {
+	display: none ; 
+}
+
+.form-group.toggle-content.is-visible {
+	display: block;
+}
 /* Includes Bootstrap as well as some default style for the starter
  * application. This can be safely deleted to start fresh.
  */

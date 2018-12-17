@@ -11,3 +11,11 @@
 .help-block {
   color: red !important;
 }
+
+.form-group.toggle-content {
+	display: none ; 
+}
+
+.form-group.toggle-content.is-visible {
+	display: block;
+}

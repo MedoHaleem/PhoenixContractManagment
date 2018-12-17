@@ -22,7 +22,7 @@ defmodule VoldersWeb.SessionController do
         full_name: login_user.full_name,
         email: login_user.email
       })
-      |> redirect(to: "/")
+      |> redirect(to: contract_path(conn, :index))
     else
       {:error, _} ->
         conn
