@@ -1670,6 +1670,62 @@ require.register("js/app.js", function(exports, require, module) {
 
 require("phoenix_html");
 
+var _contract = require("./contract");
+
+var _contract2 = _interopRequireDefault(_contract);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+});
+
+;require.register("js/contract.js", function(exports, require, module) {
+'use strict';
+
+exports.vendorChanged = function (vendor) {
+  console.log(vendor);
+  var elm = document.getElementById('select_category');
+  if (vendor !== '') {
+    elm.classList.add('is-visible');
+    populate_category();
+  } else {
+    elm.classList.remove('is-visible');
+  }
+};
+
+exports.populate_category = function () {
+  var categorySelect = document.getElementById('contract_category');
+  categorySelect.innerText = null;
+  var categories = [];
+  switch (document.getElementById('contract_vendor').value) {
+    case 'Vodafone':
+      categories = ['Internet', 'DSL', 'Phone', 'Mobile Phone'];
+      break;
+    case 'O2':
+      categories = ['Internet', 'DSL'];
+      break;
+    case 'Vattenfall':
+      categories = ['Internet', 'Electricity', 'Gas'];
+      break;
+    default:
+      categories = [];
+  }
+
+  var options = categories.map(function (category) {
+    var value = category.toLowerCase();
+    categorySelect.add(new Option(value, value));
+  });
+};
+
+exports.loadVendor = function () {
+  if (document.getElementById("hidden_vendor")) {
+    var selector = document.getElementById("hidden_vendor");
+    document.getElementById("contract_vendor").value = selector.value;
+    vendorChanged(selector.value);
+    selector = document.getElementById("hidden_category");
+    document.getElementById("contract_category").value = selector.value;
+  }
+};
+
 });
 
 require.register("js/socket.js", function(exports, require, module) {

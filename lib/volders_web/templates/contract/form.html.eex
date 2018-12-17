@@ -39,31 +39,4 @@
   </div>
 <% end %>
 
-<script>
-function vendorChanged(vendor) {
-    console.log(vendor);
-    let elm = document.getElementById("select_category")
-    if(vendor !== "") {
-      elm.classList.add("is-visible");
-      populate_category()
-    } else {
-       elm.classList.remove("is-visible");
-    }
-}
-
-function populate_category() {
-  let  vendor = document.getElementById("contract_category")
-  vendor.innerText = null
-  const categories = [
-  "Internet",
-  "Mobile Phone",
-  "Landline",
-];
-
-  const options = categories.map(category => {
-    const value = category.toLowerCase();
-    vendor.add(new Option(value, value));
-  });
-
-}
-</script>
+<script src="<%= static_path(@conn, "/js/contract.js") %>"></script>

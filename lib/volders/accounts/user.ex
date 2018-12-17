@@ -26,7 +26,8 @@ defmodule Volders.Accounts.User do
     |> unique_constraint(:email, message: "This email is already taken")
   end
 
-  def encrypt_password(changeset) do
+  @spec encrypt_password(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp encrypt_password(changeset) do
     with password when not is_nil(password) <- get_change(changeset, :password) do
       put_change(changeset, :encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
     else

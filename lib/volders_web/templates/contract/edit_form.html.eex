@@ -40,42 +40,7 @@
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
-
+<script src="<%= static_path(@conn, "/js/contract.js") %>"></script>
 <script>
-function vendorChanged(vendor) {
-    console.log(vendor);
-    let elm = document.getElementById("select_category")
-    if(vendor !== "") {
-      elm.classList.add("is-visible");
-      populate_category()
-    } else {
-       elm.classList.remove("is-visible");
-    }
-}
-
-function populate_category() {
-  let  vendor = document.getElementById("contract_category")
-  vendor.innerText = null
-  const categories = [
-  "Internet",
-  "Mobile Phone",
-  "Landline",
-];
-
-  const options = categories.map(category => {
-    const value = category.toLowerCase();
-    vendor.add(new Option(value, value));
-});
-
-  }
-
-function loadVendor() {
-    let selector = document.getElementById("hidden_vendor")
-    document.getElementById("contract_vendor").value = selector.value
-    vendorChanged(selector.value)
-    selector = document.getElementById("hidden_category")
-    document.getElementById("contract_category").value = selector.value
-  }
-  window.onload = loadVendor
-
+window.onload = loadVendor
 </script>
