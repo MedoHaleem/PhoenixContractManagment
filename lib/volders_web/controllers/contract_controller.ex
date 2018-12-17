@@ -1,5 +1,7 @@
 defmodule VoldersWeb.ContractController do
   use VoldersWeb, :controller
+  import Plug.Conn
+  plug :authenticate_user when action in [:new, :create, :show, :edit, :update, :delete]
 
   alias Volders.Accounts
   alias Volders.Accounts.Contract
@@ -56,5 +58,16 @@ defmodule VoldersWeb.ContractController do
     conn
     |> put_flash(:info, "Contract deleted successfully.")
     |> redirect(to: contract_path(conn, :index))
+  end
+
+  defp authenticate_user(conn, _params) do
+    if Plug.Conn.get_session(conn, :user) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You need to sign in or sign up before continuing.")
+      |> redirect(to: session_path(conn, :new))
+      |> halt()
+    end
   end
 end
