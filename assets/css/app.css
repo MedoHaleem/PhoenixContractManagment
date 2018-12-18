@@ -19,3 +19,9 @@
 .form-group.toggle-content.is-visible {
 	display: block;
 }
+
+.clickable-tr {
+  cursor: pointer;
+  border-color: gray;
+  border-style:solid;
+}

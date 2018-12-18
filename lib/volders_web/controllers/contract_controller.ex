@@ -20,10 +20,10 @@ defmodule VoldersWeb.ContractController do
   def create(conn, %{"contract" => contract_params}) do
 
     with user <- get_session(conn, :user),
-    contract_params <- Map.put(contract_params, "user_id", user.id), {:ok, contract} <- Accounts.create_contract(contract_params) do
+    contract_params <- Map.put(contract_params, "user_id", user.id), {:ok, _contract} <- Accounts.create_contract(contract_params) do
         conn
-        |> put_flash(:info, "Contract created successfully.")
-        |> redirect(to: contract_path(conn, :show, contract))
+        |> put_flash(:info, "Your contract was added.")
+        |> redirect(to: contract_path(conn, :index))
     else
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

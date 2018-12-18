@@ -19,6 +19,12 @@
 .form-group.toggle-content.is-visible {
 	display: block;
 }
+
+.clickable-tr {
+  cursor: pointer;
+  border-color: gray;
+  border-style:solid;
+}
 /* Includes Bootstrap as well as some default style for the starter
  * application. This can be safely deleted to start fresh.
  */

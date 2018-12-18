@@ -33,7 +33,6 @@ function populate_category () {
 }
 
 function loadVendor() {
-  alert("load")
   if (document.getElementById("hidden_vendor")) {
   let selector = document.getElementById("hidden_vendor")
   document.getElementById("contract_vendor").value = selector.value
