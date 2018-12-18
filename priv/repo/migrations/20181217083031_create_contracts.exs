@@ -11,6 +11,6 @@ defmodule Volders.Repo.Migrations.CreateContracts do
 
       timestamps()
     end
-
+    create index(:contracts, [:user_id])
   end
 end

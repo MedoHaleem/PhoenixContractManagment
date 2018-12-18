@@ -34,9 +34,4 @@ defmodule VoldersWeb.UserControllerTest do
   end
 
 
-
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
-  end
 end

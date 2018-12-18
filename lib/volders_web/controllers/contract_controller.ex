@@ -1,7 +1,7 @@
 defmodule VoldersWeb.ContractController do
   use VoldersWeb, :controller
   import Plug.Conn
-  plug :authorize_user when action in [:new, :create, :show, :edit, :update, :delete]
+  plug :authorize_user when action in [:index, :new, :create, :show, :edit, :update, :delete]
 
   alias Volders.Accounts
   alias Volders.Accounts.Contract

@@ -3,6 +3,7 @@
         <ul class="nav nav-pills pull-right">
              <%= if Plug.Conn.get_session(@conn, :user) do %>
             <li><a href="/logout">Logout</a></li>
+            <li><a href="/contract">My Contracts</a></li>
             <% else %>
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>
