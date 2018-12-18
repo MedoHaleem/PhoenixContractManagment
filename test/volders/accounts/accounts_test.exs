@@ -6,13 +6,17 @@ defmodule Volders.AccountsTest do
   describe "users" do
     alias Volders.Accounts.User
 
-    @valid_attrs %{email: "test@test.com", password: "password123456", password_confirmation: "password123456" ,full_name: "Test McTest"}
+    @valid_attrs %{
+      email: "test@test.com",
+      password: "password123456",
+      password_confirmation: "password123456",
+      full_name: "Test McTest"
+    }
     @invalid_attrs %{email: nil, password: nil, full_name: nil}
 
     def user_fixture(attrs \\ %{}) do
       with create_attrs <- Map.merge(@valid_attrs, attrs),
-           {:ok, user} <- Accounts.create_user(create_attrs)
-      do
+           {:ok, user} <- Accounts.create_user(create_attrs) do
         # these are virtual fields so it won't be pulled from the database, we simulate that here
         user |> Map.merge(%{password: nil, password_confirmation: nil})
       else
@@ -36,7 +40,6 @@ defmodule Volders.AccountsTest do
       assert user.full_name == "Test McTest"
     end
 
-
     test "create_user/1 fails to create the user when email is not a valid format" do
       {:error, changeset} = user_fixture(%{email: "test.com"})
       assert !changeset.valid?
@@ -48,7 +51,9 @@ defmodule Volders.AccountsTest do
     end
 
     test "create_user/1 fails to create the user when the password and the password_confirmation don't match" do
-      {:error, changeset} = user_fixture(%{password: "password123456", password_confirmation: "password789456"})
+      {:error, changeset} =
+        user_fixture(%{password: "password123456", password_confirmation: "password789456"})
+
       assert !changeset.valid?
     end
 
@@ -64,15 +69,29 @@ defmodule Volders.AccountsTest do
     test "get_user_by_email/1 returns nil with no matching email" do
       assert is_nil(Accounts.get_user_by_email!("fail"))
     end
-
   end
 
   describe "contracts" do
     alias Volders.Accounts.Contract
 
-    @valid_user_attrs %{email: "test@test.com", password: "password123456", password_confirmation: "password123456" ,full_name: "Test McTest"}
-    @valid_attrs %{category: "some category", costs: 120.5, ends_on: Date.utc_today(), vendor: "some vendor"}
-    @update_attrs %{category: "some updated category", costs: 456.7, ends_on: Date.utc_today(), vendor: "some updated vendor"}
+    @valid_user_attrs %{
+      email: "test@test.com",
+      password: "password123456",
+      password_confirmation: "password123456",
+      full_name: "Test McTest"
+    }
+    @valid_attrs %{
+      category: "some category",
+      costs: 120.5,
+      ends_on: Date.utc_today(),
+      vendor: "some vendor"
+    }
+    @update_attrs %{
+      category: "some updated category",
+      costs: 456.7,
+      ends_on: Date.utc_today(),
+      vendor: "some updated vendor"
+    }
     @invalid_attrs %{category: nil, costs: nil, ends_on: nil, vendor: nil}
 
 
@@ -84,7 +103,7 @@ defmodule Volders.AccountsTest do
         |> Enum.into(@valid_attrs)
         |> Accounts.create_contract()
 
-      contract
+       contract
     end
 
     test "list_contracts/0 returns all contracts" do
@@ -112,6 +131,19 @@ defmodule Volders.AccountsTest do
 
     test "create_contract/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(@invalid_attrs)
+    end
+
+    test "create_contract/1 fails to create the contract when cost is 0 or lower" do
+      {:ok, user} = Accounts.create_user(@valid_user_attrs)
+      invalid_attrs = Enum.into(@valid_attrs, %{user_id: user.id})
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{costs: 0}))
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{costs: -100}))
+    end
+
+    test "create_contract/1 fails to create the contract when date is in the past" do
+      {:ok, user} = Accounts.create_user(@valid_user_attrs)
+      invalid_attrs = Enum.into(@valid_attrs, %{user_id: user.id})
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{ends_on: ~D[2010-04-17]}))
     end
 
     test "update_contract/2 with valid data updates the contract" do
