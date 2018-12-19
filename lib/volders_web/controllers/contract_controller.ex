@@ -45,10 +45,10 @@ defmodule VoldersWeb.ContractController do
     contract = Accounts.get_contract!(id)
 
     case Accounts.update_contract(contract, contract_params) do
-      {:ok, contract} ->
+      {:ok, _contract} ->
         conn
-        |> put_flash(:info, "Contract updated successfully.")
-        |> redirect(to: contract_path(conn, :show, contract))
+        |> put_flash(:info, "Your contract was updated.")
+        |> redirect(to: contract_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", contract: contract, changeset: changeset)
     end

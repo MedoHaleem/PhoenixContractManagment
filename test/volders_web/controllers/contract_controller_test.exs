@@ -62,7 +62,7 @@ defmodule VoldersWeb.ContractControllerTest do
   end
 
   describe "create contract" do
-    test "redirects to show when data is valid", %{conn: conn, user: user} do
+    test "redirects to index when data is valid", %{conn: conn, user: user} do
       conn =
         login(conn, user)
         |> post("/contract", %{"contract" => @create_attrs})
@@ -99,7 +99,7 @@ defmodule VoldersWeb.ContractControllerTest do
       conn =
         login(conn, user) |> put(contract_path(conn, :update, contract), contract: @update_attrs)
 
-      assert redirected_to(conn) == contract_path(conn, :show, contract)
+      assert redirected_to(conn) == contract_path(conn, :index)
 
       conn = get(conn, contract_path(conn, :index))
       assert html_response(conn, 200) =~ "My Contracts"

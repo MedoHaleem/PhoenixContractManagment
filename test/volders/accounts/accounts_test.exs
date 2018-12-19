@@ -81,13 +81,13 @@ defmodule Volders.AccountsTest do
       full_name: "Test McTest"
     }
     @valid_attrs %{
-      category: "some category",
+      category: "Internet",
       costs: 120.5,
       ends_on: Date.utc_today(),
       vendor: "Vodafone"
     }
     @update_attrs %{
-      category: "some updated category",
+      category: "Internet",
       costs: 456.7,
       ends_on: Date.utc_today(),
       vendor: "O2"
@@ -123,7 +123,7 @@ defmodule Volders.AccountsTest do
 
     test "create_contract/1 with valid data creates a contract" do
       contract = contract_fixture()
-      assert contract.category == "some category"
+      assert contract.category == "Internet"
       assert contract.costs == 120.5
       assert contract.ends_on == Date.utc_today()
       assert contract.vendor == "Vodafone"
@@ -146,6 +146,18 @@ defmodule Volders.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{ends_on: ~D[2010-04-17]}))
     end
 
+    test "create_contract/1 fails to create the contract when Vednor is not in the list" do
+      {:ok, user} = Accounts.create_user(@valid_user_attrs)
+      invalid_attrs = Enum.into(@valid_attrs, %{user_id: user.id})
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{vendor: "test"}))
+    end
+
+    test "create_contract/1 fails to create the contract when Category doesn't belong to Vendor" do
+      {:ok, user} = Accounts.create_user(@valid_user_attrs)
+      invalid_attrs = Enum.into(@valid_attrs, %{user_id: user.id})
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{category: "test"}))
+    end
+
     # Elixir Already give an argument error cannot parse "2020-17-17" as date, reason: :invalid_date, which get called automatically with strcut type Date
     # Don't know how to assert it
     # test "create_contract/1 fails to create the contract when ends_on is not a valid format" do
@@ -158,7 +170,7 @@ defmodule Volders.AccountsTest do
       contract = contract_fixture()
       assert {:ok, contract} = Accounts.update_contract(contract, @update_attrs)
       assert %Contract{} = contract
-      assert contract.category == "some updated category"
+      assert contract.category == "Internet"
       assert contract.costs == 456.7
       assert contract.ends_on == Date.utc_today()
       assert contract.vendor == "O2"
