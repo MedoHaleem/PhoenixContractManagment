@@ -5,9 +5,15 @@ To start your Phoenix server:
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `cd assets && npm install`
+  * Update Config file with usrname and password for the database
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+
+# Run Test
+
+You run the test suits by simply typing ``` mix test ```
 
 # Decisions 
 My first decision was Authentication do I use 3rd party library like Guardian that have JWT solution or I simply roll my own authentication using phoenix sessions, comeonin and bycrypt, I went with the latter as the app is simple enough and web only.

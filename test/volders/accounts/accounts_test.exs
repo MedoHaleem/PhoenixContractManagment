@@ -84,13 +84,13 @@ defmodule Volders.AccountsTest do
       category: "some category",
       costs: 120.5,
       ends_on: Date.utc_today(),
-      vendor: "some vendor"
+      vendor: "Vodafone"
     }
     @update_attrs %{
       category: "some updated category",
       costs: 456.7,
       ends_on: Date.utc_today(),
-      vendor: "some updated vendor"
+      vendor: "O2"
     }
     @invalid_attrs %{category: nil, costs: nil, ends_on: nil, vendor: nil}
 
@@ -126,7 +126,7 @@ defmodule Volders.AccountsTest do
       assert contract.category == "some category"
       assert contract.costs == 120.5
       assert contract.ends_on == Date.utc_today()
-      assert contract.vendor == "some vendor"
+      assert contract.vendor == "Vodafone"
     end
 
     test "create_contract/1 with invalid data returns error changeset" do
@@ -146,6 +146,14 @@ defmodule Volders.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{ends_on: ~D[2010-04-17]}))
     end
 
+    # Elixir Already give an argument error cannot parse "2020-17-17" as date, reason: :invalid_date, which get called automatically with strcut type Date
+    # Don't know how to assert it
+    # test "create_contract/1 fails to create the contract when ends_on is not a valid format" do
+    #   {:ok, user} = Accounts.create_user(@valid_user_attrs)
+    #   invalid_attrs = Enum.into(@valid_attrs, %{user_id: user.id})
+    #   assert {:error, %Ecto.Changeset{}} = Accounts.create_contract(Map.merge(invalid_attrs, %{ends_on: ~D[2020-17-17]}))
+    # end
+
     test "update_contract/2 with valid data updates the contract" do
       contract = contract_fixture()
       assert {:ok, contract} = Accounts.update_contract(contract, @update_attrs)
@@ -153,7 +161,7 @@ defmodule Volders.AccountsTest do
       assert contract.category == "some updated category"
       assert contract.costs == 456.7
       assert contract.ends_on == Date.utc_today()
-      assert contract.vendor == "some updated vendor"
+      assert contract.vendor == "O2"
     end
 
     test "update_contract/2 with invalid data returns error changeset" do

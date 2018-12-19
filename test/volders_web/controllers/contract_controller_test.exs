@@ -10,10 +10,10 @@ defmodule VoldersWeb.ContractControllerTest do
     vendor: "Vodafone"
   }
   @update_attrs %{
-    category: "some updated category",
+    category: "Internet",
     costs: 456.7,
     ends_on: Date.utc_today(),
-    vendor: "some updated vendor"
+    vendor: "O2"
   }
   @invalid_attrs %{category: nil, costs: nil, ends_on: Date.utc_today(), vendor: nil}
 

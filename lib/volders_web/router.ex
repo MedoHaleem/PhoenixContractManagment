@@ -22,7 +22,7 @@ defmodule VoldersWeb.Router do
 
     resources "/sessions", SessionController, only: [:create]
     get "/login", SessionController, :new
-    delete "/logout", SessionController, :delete
+    get "/logout", SessionController, :delete
 
     resources "/contract", ContractController
   end

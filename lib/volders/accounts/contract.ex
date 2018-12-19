@@ -18,6 +18,7 @@ defmodule Volders.Accounts.Contract do
     contract
     |> cast(attrs, [:vendor, :category, :costs, :ends_on, :user_id])
     |> validate_required([:vendor, :category, :costs, :ends_on, :user_id])
+    |> validate_vendor(:vendor)
     |> validate_number(:costs, greater_than: 0, message: "The cost value is invalid")
     |> validate_date_in_the_future(:ends_on)
   end
@@ -27,6 +28,16 @@ defmodule Volders.Accounts.Contract do
       case Date.compare(ends_on, Date.utc_today()) do
         :lt -> [{field, "can't be in the past"}]
         _ -> []
+      end
+    end)
+  end
+
+  def validate_vendor(changeset, field) do
+    vendors = ["Vodafone", "O2", "Vattenfall"]
+    validate_change(changeset, field, fn _field, vendor ->
+      case Enum.any?(vendors, fn x -> x == vendor end) do
+        false -> [{field, "invalid vendor please pick a valid one from the list"}]
+        true -> []
       end
     end)
   end

@@ -34,7 +34,7 @@ defmodule VoldersWeb.SessionControllerTest do
     test "DELETE /sessions", %{conn: conn, user: user} do
       conn = post(conn, "/sessions", %{email: user.email, password: "password123456"})
       assert Plug.Conn.get_session(conn, :user)
-      conn = delete(conn, "/logout")
+      conn = get(conn, "/logout")
       assert is_nil(Plug.Conn.get_session(conn, :user))
     end
   end
